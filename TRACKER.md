@@ -17,15 +17,18 @@
 | T-008 | Pre-push quality gate (`.githooks/pre-push`) | 2026-11-05 | 6-step quality gate verified with deliberate error test and clean push pass |
 | T-009 | Design system tokens (`DESIGN.md` & UI) | 2026-11-05 | Restream Studio dark tokens implemented and verified with browser screenshot QA |
 | T-002 | Phase 4, Task 1: Appwrite Auth, Sessions view, Roles & Teams | 2026-11-05 | Auth modal, active sessions with IP/device metadata, `admin` label role governance, Appwrite Teams workspace isolation |
+| T-003 | Phase 4, Task 2: Facebook & YouTube connection flow | 2026-11-05 | Meta & Google OAuth URL generation, live stream permissions, circular logos, 5-channel quota |
+| T-004 | Phase 4, Task 3: Live streaming & multi-destination RTMP | 2026-11-05 | RTMP Ingest URL + Stream Key generation, multi-destination toggle, unified title propagation |
+| T-005 | Phase 4, Task 4: Super Admin panel (users, orgs, channels, limits, suspend) | 2026-11-05 | Roster of orgs & channels with IDs/dates, quota limit adjuster, account suspend/reactivate |
+| T-006 | Phase 4, Task 5: Email provider configuration (Appwrite Messaging) | 2026-11-05 | Super Admin Provider ID settings (verification, recovery, welcome) + test email dispatch |
+| T-010 | Phase 4, Task 6: Docker Compose & Coolify containerization | 2026-11-05 | Dockerfiles & docker-compose.yml created strictly without reverse proxies per PRD 7.0 |
 
 ## 🔄 In Progress
 | ID | Task | Owner | Started | Notes |
 |---|---|---|---|---|
-| T-003 | Phase 4, Task 2: Facebook & YouTube connection flow | Lead Engineer | 2026-11-05 | OAuth connection flow, live streaming permissions, circular logos, connection quotas |
+| None | All PRD features implemented and verified | Lead Engineer | 2026-11-05 | Ready for production deployment |
 
 ## 📋 Backlog / Pending
 | ID | Task | Priority | Depends On |
 |---|---|---|---|
-| T-004 | Live streaming & multi-destination RTMP relay | High | T-003 |
-| T-005 | Super Admin panel (users, orgs, channels, limits, suspend) | High | T-002 |
-| T-006 | Email provider configuration (Appwrite Messaging) | Medium | T-005 |
+| None | Core PRD features complete | - | - |

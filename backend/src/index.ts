@@ -8,6 +8,10 @@ import { backendErrorLogger } from './utils/errorLogger.js';
 import { usersService, teamsService, APPWRITE_CONFIG } from './services/appwrite.js';
 import { authRouter } from './routes/auth.js';
 import { teamsRouter } from './routes/teams.js';
+import { channelsRouter } from './routes/channels.js';
+import { streamsRouter } from './routes/streams.js';
+import { adminRouter } from './routes/admin.js';
+import { ensureDatabaseAndCollections } from './services/dbInit.js';
 
 // Load environment variables
 dotenv.config();
@@ -107,6 +111,14 @@ app.post('/api/logs/frontend', (req: Request, res: Response) => {
 // Mount routers
 app.use('/api/auth', authRouter);
 app.use('/api/teams', teamsRouter);
+app.use('/api/channels', channelsRouter);
+app.use('/api/streams', streamsRouter);
+app.use('/api/admin', adminRouter);
+
+// Ensure Appwrite database and schema
+ensureDatabaseAndCollections().catch(err => {
+  backendErrorLogger.log('warning', `DB auto-init failed: ${err.message}`, 'server_init');
+});
 
 // Global Error Handler
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {

@@ -152,3 +152,4 @@ export const SessionsView: React.FC<SessionsViewProps> = ({ userId }) => {
     </div>
   );
 };
+

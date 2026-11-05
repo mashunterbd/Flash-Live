@@ -1,0 +1,43 @@
+# Flash Live — Docker Compose Deployment for Coolify
+# Strictly NO reverse proxy (Traefik, Caddy, Nginx-proxy forbidden per PRD Section 7)
+# Coolify manages routing, SSL, and domains natively.
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: flash-live-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+      - "1935:1935"
+      - "8000:8000"
+    env_file:
+      - backend/.env
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+    networks:
+      - flashlive-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: flash-live-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - flashlive-network
+
+networks:
+  flashlive-network:
+    driver: bridge
+
