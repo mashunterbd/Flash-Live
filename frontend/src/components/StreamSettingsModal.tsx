@@ -65,12 +65,12 @@ export const StreamSettingsModal: React.FC<StreamSettingsModalProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
-      <div className="bg-[#111726] border border-[#1E293B] rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[460px]">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+      <div className="glass-panel max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[460px]">
         {/* Left Subnav */}
-        <div className="w-full md:w-56 bg-[#0E131F] border-b md:border-b-0 md:border-r border-[#1E293B] p-4 flex flex-col justify-between">
+        <div className="w-full md:w-56 bg-[var(--surface-card)] border-b md:border-b-0 md:border-r border-[var(--border)] p-4 flex flex-col justify-between">
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-white tracking-tight">Settings</h3>
+            <h3 className="text-lg font-bold text-[var(--text)] tracking-tight">Settings</h3>
             <nav className="space-y-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
@@ -79,10 +79,10 @@ export const StreamSettingsModal: React.FC<StreamSettingsModalProps> = ({
                   <button
                     key={item.id}
                     onClick={() => setActiveNav(item.id)}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                       isActive
-                        ? 'bg-blue-600 text-white font-semibold'
-                        : 'text-slate-400 hover:text-white hover:bg-[#162035]'
+                        ? 'bg-[var(--accent)] text-white font-semibold shadow-sm'
+                        : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-hover)]'
                     }`}
                   >
                     <div className="flex items-center space-x-2.5">
@@ -96,25 +96,25 @@ export const StreamSettingsModal: React.FC<StreamSettingsModalProps> = ({
             </nav>
           </div>
 
-          <div className="pt-4 text-[11px] text-slate-500">
+          <div className="pt-4 text-[11px] text-[var(--text-muted)]">
             Flash Live v1.0 • Low Latency RTMP
           </div>
         </div>
 
         {/* Right Content Area */}
-        <div className="flex-1 p-6 space-y-6 flex flex-col justify-between bg-[#111726]">
+        <div className="flex-1 p-6 space-y-6 flex flex-col justify-between bg-[var(--surface)]">
           <div className="space-y-5">
             <div className="flex items-center justify-between">
               {/* Protocol Pills matching Image 4 */}
-              <div className="flex items-center bg-[#0B0F17] p-1 rounded-lg border border-[#1E293B]">
+              <div className="flex items-center bg-[var(--surface-card)] p-1 rounded-xl border border-[var(--border)]">
                 {(['RTMP', 'RTMPS', 'SRT', 'WHIP'] as const).map((proto) => (
                   <button
                     key={proto}
                     onClick={() => setSelectedProtocol(proto)}
-                    className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors flex items-center space-x-1 ${
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors flex items-center space-x-1 ${
                       selectedProtocol === proto
-                        ? 'bg-white text-slate-900 shadow-sm'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-[var(--accent)] text-white shadow-sm'
+                        : 'text-[var(--text-muted)] hover:text-[var(--text)]'
                     }`}
                   >
                     <span>{proto}</span>
@@ -129,7 +129,7 @@ export const StreamSettingsModal: React.FC<StreamSettingsModalProps> = ({
 
               <button
                 onClick={onClose}
-                className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors"
+                className="text-[var(--text-muted)] hover:text-[var(--text)] p-1 rounded-lg transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -137,50 +137,50 @@ export const StreamSettingsModal: React.FC<StreamSettingsModalProps> = ({
 
             {/* Server Autodetect */}
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Server</label>
-              <select className="w-full bg-[#0B0F17] border border-[#1E293B] rounded-lg px-3 py-2 text-xs text-white focus:outline-none cursor-pointer">
-                <option>Autodetect (Global Low Latency / Frankfurt)</option>
-                <option>US East (N. Virginia)</option>
-                <option>US West (Oregon)</option>
-                <option>Europe (London / Amsterdam)</option>
-                <option>Asia Pacific (Singapore / Tokyo)</option>
+              <label className="text-xs font-semibold text-[var(--text-muted)]">Server</label>
+              <select className="w-full glass-input px-3 py-2 text-xs text-[var(--text)] bg-[var(--surface-card)] border-[var(--border)] rounded-xl focus:outline-none cursor-pointer">
+                <option className="bg-[#070B1A] text-white">Autodetect (Global Low Latency / Frankfurt)</option>
+                <option className="bg-[#070B1A] text-white">US East (N. Virginia)</option>
+                <option className="bg-[#070B1A] text-white">US West (Oregon)</option>
+                <option className="bg-[#070B1A] text-white">Europe (London / Amsterdam)</option>
+                <option className="bg-[#070B1A] text-white">Asia Pacific (Singapore / Tokyo)</option>
               </select>
             </div>
 
             {/* RTMP URL */}
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">RTMP URL</label>
+              <label className="text-xs font-semibold text-[var(--text-muted)]">RTMP URL</label>
               <div className="relative flex items-center">
                 <input
                   type="text"
                   readOnly
                   value={ingestUrl}
-                  className="w-full bg-[#0B0F17] border border-[#1E293B] rounded-lg px-3 py-2 pr-10 text-xs text-slate-200 font-mono select-all focus:outline-none"
+                  className="w-full glass-input px-3 py-2 pr-10 text-xs text-[var(--text)] font-mono select-all focus:outline-none bg-[var(--surface-card)] border-[var(--border)] rounded-xl"
                 />
                 <button
                   onClick={() => copyToClipboard(ingestUrl, 'url')}
-                  className="absolute right-2 text-slate-400 hover:text-blue-400 p-1"
+                  className="absolute right-2 text-[var(--text-muted)] hover:text-[var(--accent)] p-1"
                   title="Copy RTMP URL"
                 >
-                  {copiedField === 'url' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  {copiedField === 'url' ? <Check className="w-4 h-4 text-[var(--success)]" /> : <Copy className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
             {/* Stream Key */}
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Stream key</label>
+              <label className="text-xs font-semibold text-[var(--text-muted)]">Stream key</label>
               <div className="relative flex items-center">
                 <input
                   type={showKey ? 'text' : 'password'}
                   readOnly
                   value={streamKey}
-                  className="w-full bg-[#0B0F17] border border-[#1E293B] rounded-lg px-3 py-2 pr-20 text-xs text-slate-200 font-mono select-all focus:outline-none"
+                  className="w-full glass-input px-3 py-2 pr-20 text-xs text-[var(--text)] font-mono select-all focus:outline-none bg-[var(--surface-card)] border-[var(--border)] rounded-xl"
                 />
                 <div className="absolute right-2 flex items-center space-x-1">
                   <button
                     onClick={() => setShowKey(!showKey)}
-                    className="text-slate-400 hover:text-white p-1"
+                    className="text-[var(--text-muted)] hover:text-[var(--text)] p-1"
                     title={showKey ? 'Hide key' : 'Show key'}
                   >
                     {showKey ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
@@ -188,17 +188,17 @@ export const StreamSettingsModal: React.FC<StreamSettingsModalProps> = ({
                   <button
                     onClick={handleRegenerate}
                     disabled={regenerating}
-                    className="text-slate-400 hover:text-white p-1"
+                    className="text-[var(--text-muted)] hover:text-[var(--text)] p-1"
                     title="Regenerate stream key"
                   >
                     {regenerating ? <Spinner size="sm" /> : <RefreshCw className="w-3.5 h-3.5" />}
                   </button>
                   <button
                     onClick={() => copyToClipboard(streamKey, 'key')}
-                    className="text-slate-400 hover:text-blue-400 p-1"
+                    className="text-[var(--text-muted)] hover:text-[var(--accent)] p-1"
                     title="Copy stream key"
                   >
-                    {copiedField === 'key' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                    {copiedField === 'key' ? <Check className="w-4 h-4 text-[var(--success)]" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
@@ -208,34 +208,34 @@ export const StreamSettingsModal: React.FC<StreamSettingsModalProps> = ({
             <div>
               <button
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="text-xs text-blue-400 hover:underline font-medium"
+                className="text-xs text-[var(--accent)] hover:underline font-medium"
               >
                 {showAdvanced ? 'Hide advanced settings' : 'Show advanced settings'}
               </button>
 
               {showAdvanced && (
-                <div className="mt-3 p-3 bg-[#0B0F17] border border-[#1E293B] rounded-lg text-xs space-y-2 text-slate-300">
+                <div className="mt-3 p-3 bg-[var(--surface-card)] border border-[var(--border)] rounded-xl text-xs space-y-2 text-[var(--text-muted)]">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Max Video Bitrate:</span>
-                    <span className="font-mono text-white">6000 Kbps</span>
+                    <span>Max Video Bitrate:</span>
+                    <span className="font-mono text-[var(--text)]">6000 Kbps</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Audio Sample Rate:</span>
-                    <span className="font-mono text-white">48 kHz AAC</span>
+                    <span>Audio Sample Rate:</span>
+                    <span className="font-mono text-[var(--text)]">48 kHz AAC</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Keyframe Interval:</span>
-                    <span className="font-mono text-white">2 seconds (GOP 60)</span>
+                    <span>Keyframe Interval:</span>
+                    <span className="font-mono text-[var(--text)]">2 seconds (GOP 60)</span>
                   </div>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="pt-4 border-t border-[#1E293B] flex justify-end">
+          <div className="pt-4 border-t border-[var(--border)] flex justify-end">
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition-colors"
+              className="px-4 py-2 bg-[var(--accent)] hover:opacity-90 text-white rounded-xl text-xs font-semibold transition-opacity"
             >
               Done
             </button>

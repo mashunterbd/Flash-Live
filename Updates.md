@@ -29,6 +29,63 @@ Why this was created or fixed, detailed analysis, root cause, and solution appro
 
 ## Entries
 
+## "Apex-Style" Glass Dashboard Redesign with 3 Switchable Themes (Dark, Light, Green)
+
+**Date:** 2026-11-05  
+**Type:** Feature / UI & Visual Transformation
+
+### Description
+1. **Three Switchable Themes (Design Tokens):**
+   - Implemented CSS variables on `[data-theme="dark" | "light" | "green"]` in `frontend/src/index.css` and exposed them via `frontend/tailwind.config.js` (`apex.*` and `studio.*`).
+   - **Dark Theme:** Deep navy `#070B1A`, radial glow `#2A3A8F` (20-35%), glass surfaces `rgba(255,255,255,0.04)`, borders `rgba(255,255,255,0.10)`, text `#F3F5FA`, accent `#7C8CFF`.
+   - **Light Theme:** `#F4F6FB`, soft radial `#DCE3FF` (60%), glass surfaces `rgba(255,255,255,0.75)` with backdrop blur, borders `rgba(15,23,42,0.08)`, text `#0F172A`, accent `#4F5BD5`.
+   - **Green Theme:** Soft mint `#F0FAF4`, soft radial `#BBF7D0` (55%), glass surfaces `rgba(255,255,255,0.70)` with backdrop blur, borders `rgba(6,95,70,0.12)`, text `#0B2B20`, accent `#10B981`.
+   - Theme manager `frontend/src/utils/theme.ts` with `localStorage` persistence and automatic `prefers-color-scheme` fallback.
+2. **Layout Shell (Sidebar & Top Bar):**
+   - `frontend/src/components/ApexSidebar.tsx`: Fixed left glass sidebar with brand logo, workspace switcher dropdown, search field with `⌘K` badge, grouped navigation (`MAIN`, `HELP CENTER`), mobile responsive off-canvas drawer with backdrop overlay, and bottom "Verify this device" security card with QR code.
+   - `frontend/src/components/ApexTopBar.tsx`: Dynamic page title, time-range segmented pill control (`12 months`, `30 days`, `7 days`, `24 hours`), "Select dates" and "Filters" buttons, 3-pill theme toggle (`Dark` / `Light` / `Green`), notification bell, user switcher for test accounts, and circular user profile.
+3. **Dashboard Components (Apex 1:1 Reference Target):**
+   - `frontend/src/components/KPICards.tsx`: Top row of 3 KPI glass cards (Live Streaming Status, Connected Destinations, Ingest Bitrate) with compact trend badges (`+10%`, `+12%`, `-2%`).
+   - `frontend/src/components/AnalyticsCharts.tsx`: Middle row of 3 glass analytics cards (Broadcast Audience Volume with progress bar and multi-platform breakdown, Encoder Reliability with glowing SVG waveform graph and segmented tick-bar, Impressions Overview with cylindrical glowing bars chart and time-span selector).
+   - `frontend/src/components/ApexTable.tsx`: Full-width glass data table with search `⌘K`, column sort arrows, checkboxes, circular avatars with platform badges, status pills, and action icons.
+4. **Platform Views & Modals Refactored to Apex Glass Tokens:**
+   - `frontend/src/components/EncoderStudioView.tsx`: Glass panels, glass stage, circular channel logos with platform badges.
+   - `frontend/src/components/DestinationsView.tsx`: Circular channel logos with quota progress bar.
+   - `frontend/src/components/OrganizationsView.tsx`: Workspace team cards with glass surfaces.
+   - `frontend/src/components/SessionsView.tsx`: Active sessions table with device metadata and revoke actions.
+   - `frontend/src/components/SuperAdminPanel.tsx`: Glass tabs for Users, Organizations, and Email Providers.
+   - `frontend/src/components/StreamsListView.tsx`: Glass streams roster and status pills.
+   - `frontend/src/components/CreateStreamModal.tsx`, `StreamSettingsModal.tsx`, `UpdateTitlesModal.tsx`, `AuthModal.tsx`, `HelpModal.tsx`: Complete glassmorphism modal styles adapting seamlessly to dark, light, and green themes.
+5. **Quality & Zero Regression Gate:**
+   - Pre-push quality gate (`npm run check-all`) passing all 6 steps cleanly.
+   - Both `frontend/only_error_logs.json` and `backend/only_error_logs.json` verified clean (`[]`).
+   - Playwright / Chrome DevTools MCP visual QA verified across all 3 themes and both Desktop (1440px) and Mobile (390px) viewports with zero text overlap, no horizontal overflow, and WCAG AA contrast compliance.
+
+### Files Changed
+- `DESIGN.md` — Updated design system with 3 themes, tokens, typography, radius, shadows, and component rules
+- `frontend/src/index.css` — CSS variables for `[data-theme="dark"]`, `[data-theme="light"]`, and `[data-theme="green"]`
+- `frontend/tailwind.config.js` — Exposed `apex.*` and `studio.*` tokens with legacy test fallbacks
+- `frontend/src/utils/theme.ts` — Theme detection, application, and persistence utility
+- `frontend/src/components/ThemeToggle.tsx` — 3-pill theme toggle component
+- `frontend/src/components/ApexSidebar.tsx` — Fixed glass sidebar with search, workspace switcher, and mobile drawer
+- `frontend/src/components/ApexTopBar.tsx` — Glass top bar with segmented controls, filters, theme toggle, and profile
+- `frontend/src/components/KPICards.tsx` — Top row of 3 glass KPI cards with trend badges
+- `frontend/src/components/AnalyticsCharts.tsx` — Middle row of 3 glass analytics cards with charts and waveform
+- `frontend/src/components/ApexTable.tsx` — Full-width glass data table matching the reference
+- `frontend/src/components/EncoderStudioView.tsx` — Refactored to Apex glass styling
+- `frontend/src/components/DestinationsView.tsx` — Refactored to Apex glass styling
+- `frontend/src/components/OrganizationsView.tsx` — Refactored to Apex glass styling
+- `frontend/src/components/SessionsView.tsx` — Refactored to Apex glass styling
+- `frontend/src/components/SuperAdminPanel.tsx` — Refactored to Apex glass styling
+- `frontend/src/components/StreamsListView.tsx` — Refactored to Apex glass styling
+- `frontend/src/components/CreateStreamModal.tsx` — Refactored to Apex glass styling
+- `frontend/src/components/StreamSettingsModal.tsx` — Refactored to Apex glass styling
+- `frontend/src/components/UpdateTitlesModal.tsx` — Refactored to Apex glass styling
+- `frontend/src/components/AuthModal.tsx` — Refactored to Apex glass styling
+- `frontend/src/components/HelpModal.tsx` — Refactored to Apex glass styling
+- `frontend/src/App.tsx` — Main application shell integrating `ApexSidebar`, `ApexTopBar`, dashboard, and views
+- `frontend/test/frontend.test.js` — Added test verifying 3 themes and token definitions
+
 ## Restream Studio Architecture Redesign & High-Density UI Suite
 
 **Date:** 2026-11-05  

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import {
-  CheckCircle,
-  AlertCircle,
-  LogOut,
-  KeyRound,
-  Tv
+  Tv,
+  Plus,
+  Radio,
+  Sparkles
 } from 'lucide-react';
-import { Sidebar, NavTab } from './components/Sidebar.js';
+import { NavTab } from './components/Sidebar.js';
+import { ApexSidebar } from './components/ApexSidebar.js';
+import { ApexTopBar } from './components/ApexTopBar.js';
+import { KPICards } from './components/KPICards.js';
+import { AnalyticsCharts } from './components/AnalyticsCharts.js';
+import { ApexTable } from './components/ApexTable.js';
 import { StreamsListView } from './components/StreamsListView.js';
 import { EncoderStudioView } from './components/EncoderStudioView.js';
 import { CreateStreamModal } from './components/CreateStreamModal.js';
@@ -18,6 +22,7 @@ import { SessionsView } from './components/SessionsView.js';
 import { SuperAdminPanel } from './components/SuperAdminPanel.js';
 import { AuthModal } from './components/AuthModal.js';
 import { HelpModal } from './components/HelpModal.js';
+import { ThemeMode, getInitialTheme, applyTheme } from './utils/theme.js';
 
 interface UserInfo {
   id: string;
@@ -45,6 +50,8 @@ export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<NavTab>('home');
   const [serverHealth, setServerHealth] = useState<'checking' | 'healthy' | 'unreachable'>('checking');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState<ThemeMode>(() => getInitialTheme());
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Active Organization Workspace
   const [currentOrgId, setCurrentOrgId] = useState<string>('6aec4ad00008859371b2');
@@ -61,6 +68,11 @@ export const App: React.FC = () => {
   const [isCreateStreamModalOpen, setIsCreateStreamModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isUpdateTitlesModalOpen, setIsUpdateTitlesModalOpen] = useState(false);
+
+  // Apply theme on initial load and changes
+  useEffect(() => {
+    applyTheme(currentTheme);
+  }, [currentTheme]);
 
   // Check health and auto-load active session on mount
   useEffect(() => {
@@ -80,6 +92,11 @@ export const App: React.FC = () => {
       loadOrgChannels();
     }
   }, [currentOrgId]);
+
+  const handleThemeChange = (newTheme: ThemeMode) => {
+    setCurrentTheme(newTheme);
+    applyTheme(newTheme);
+  };
 
   const checkHealth = async () => {
     try {
@@ -233,10 +250,39 @@ export const App: React.FC = () => {
     setActiveTab('home');
   };
 
+  const getTitleForTab = (tab: NavTab) => {
+    switch (tab) {
+      case 'home':
+        return 'Dashboard';
+      case 'studio':
+        return 'Live Encoder Studio';
+      case 'channels':
+        return 'Broadcast Destinations';
+      case 'teams':
+        return 'Team & Workspaces';
+      case 'sessions':
+        return 'Active Sessions';
+      case 'admin':
+        return 'Super Admin Console';
+      case 'webinars':
+        return 'Webinars Studio';
+      case 'past_streams':
+        return 'Past Broadcasts';
+      case 'clips':
+        return 'Stream Clips & Highlights';
+      case 'storage':
+        return 'Cloud Storage';
+      case 'analytics':
+        return 'Advanced Analytics';
+      default:
+        return 'Dashboard';
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#070A12] text-[#F8FAFC] flex font-sans antialiased overflow-x-hidden">
-      {/* Persistent Left Sidebar matching Image 1 */}
-      <Sidebar
+    <div className="min-h-screen text-[var(--text)] flex font-sans antialiased overflow-x-hidden transition-colors">
+      {/* Fixed Apex Glass Sidebar matching the Reference */}
+      <ApexSidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         currentUser={currentUser}
@@ -244,113 +290,103 @@ export const App: React.FC = () => {
         setCurrentOrgId={setCurrentOrgId}
         availableOrgs={availableOrgs}
         channelsCount={channels.length}
-        channelsQuota={5}
-        onOpenInviteModal={() => setActiveTab('teams')}
+        onOpenSettings={() => setIsSettingsModalOpen(true)}
+        isOpenMobile={isMobileMenuOpen}
+        onCloseMobile={() => setIsMobileMenuOpen(false)}
       />
 
       {/* Main Studio View Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
-        {/* Top Navbar */}
-        <header className="h-16 border-b border-[#1C2538] bg-[#0E131F]/90 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-30 shrink-0">
-          <div className="flex items-center space-x-3">
-            <span className="font-bold text-base tracking-tight text-white flex items-center space-x-2">
-              <span className="text-blue-500">Flash</span>
-              <span>Live</span>
-            </span>
-            <span className="text-slate-600 font-mono text-xs">/</span>
-            <span className="text-xs text-slate-300 font-medium capitalize">
-              {activeTab === 'home'
-                ? 'Streams Dashboard'
-                : activeTab === 'studio'
-                ? 'Live Encoder Studio'
-                : activeTab}
-            </span>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <div className="hidden sm:flex items-center space-x-2 text-xs">
-              <span className="text-[#94A3B8]">Appwrite:</span>
-              {serverHealth === 'healthy' ? (
-                <span className="inline-flex items-center text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 font-mono text-[10px]">
-                  <CheckCircle className="w-3 h-3 mr-1" /> ONLINE
-                </span>
-              ) : (
-                <span className="inline-flex items-center text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20 font-mono text-[10px]">
-                  <AlertCircle className="w-3 h-3 mr-1" /> {serverHealth}
-                </span>
-              )}
-            </div>
-
-            {currentUser ? (
-              <div className="flex items-center space-x-3 pl-3 border-l border-[#1C2538]">
-                {/* Switcher pills for testing */}
-                <div className="flex items-center space-x-1 bg-[#131B2E] p-1 rounded-lg border border-[#1C2538]">
-                  <button
-                    onClick={() => loginAs('6aec33ab0023e440f804')}
-                    className={`text-[10px] px-2 py-0.5 rounded transition-colors font-medium ${
-                      currentUser.id === '6aec33ab0023e440f804'
-                        ? 'bg-blue-600 text-white'
-                        : 'text-slate-400 hover:text-white'
-                    }`}
-                    title="Switch to Normal Test User"
-                  >
-                    Normal
-                  </button>
-                  <button
-                    onClick={() => loginAs('6aec344800296c3cb621')}
-                    className={`text-[10px] px-2 py-0.5 rounded transition-colors font-medium ${
-                      currentUser.id === '6aec344800296c3cb621'
-                        ? 'bg-red-600 text-white'
-                        : 'text-slate-400 hover:text-white'
-                    }`}
-                    title="Switch to Super Admin User"
-                  >
-                    Admin
-                  </button>
-                </div>
-
-                <div className="text-right hidden sm:block">
-                  <div className="text-xs font-semibold text-white truncate max-w-[140px]">
-                    {currentUser.name}
-                  </div>
-                  <div className="text-[10px] text-slate-400 font-mono">
-                    {currentUser.isSuperAdmin ? 'ROOT ADMIN' : 'NORMAL'}
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleLogout}
-                  className="p-1.5 hover:bg-[#1E293B] text-slate-400 hover:text-white rounded-lg transition-colors"
-                  title="Log out"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => setIsAuthModalOpen(true)}
-                className="text-xs bg-blue-600 hover:bg-blue-700 text-white font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1.5"
-              >
-                <KeyRound className="w-3.5 h-3.5" />
-                <span>Sign In</span>
-              </button>
-            )}
-          </div>
-        </header>
+        {/* Top Apex Glass Bar */}
+        <ApexTopBar
+          pageTitle={getTitleForTab(activeTab)}
+          currentTheme={currentTheme}
+          onThemeChange={handleThemeChange}
+          currentUser={currentUser}
+          serverHealth={serverHealth}
+          onLoginAs={loginAs}
+          onLogout={handleLogout}
+          onOpenAuth={() => setIsAuthModalOpen(true)}
+          onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        />
 
         {/* Content Body Container */}
         <main className="flex-1 p-6 max-w-7xl w-full mx-auto space-y-6">
-          {/* Tab 1: Streams Listing (Dashboard - Image 1) */}
+          {/* Tab 1: Apex Glass Dashboard (matching reference 1:1) */}
           {activeTab === 'home' && (
-            <StreamsListView
-              onOpenNewStreamModal={() => setIsCreateStreamModalOpen(true)}
-              onOpenEncoderStudio={() => setActiveTab('studio')}
-              broadcastTitle={broadcastTitle}
-              connectedChannelsCount={channels.length}
-            />
+            <div className="space-y-6 animate-in fade-in duration-200">
+              {/* Quick Action & Broadcast Banner */}
+              <div className="glass-panel p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center shrink-0">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-[var(--text)]">
+                      {broadcastTitle}
+                    </div>
+                    <div className="text-xs text-[var(--text-muted)]">
+                      {isBroadcasting
+                        ? 'Broadcasting live across multi-destination RTMP endpoints.'
+                        : 'Encoder ready. Feed OBS or hardware ingest to start multi-streaming.'}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-2 shrink-0">
+                  <button
+                    onClick={() => setIsCreateStreamModalOpen(true)}
+                    className="glass-card px-3.5 py-2 text-xs font-semibold text-[var(--text)] flex items-center space-x-1.5 hover:border-[var(--border-focus)] transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>New Stream</span>
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('studio')}
+                    className="px-4 py-2 rounded-xl text-xs font-bold bg-[var(--accent)] text-white shadow-md shadow-[var(--accent-glow)] flex items-center space-x-1.5 hover:opacity-90 transition-opacity"
+                  >
+                    <Radio className="w-3.5 h-3.5" />
+                    <span>Open Studio</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Row 1: 3 KPI Cards matching Apex reference */}
+              <KPICards
+                isLive={isBroadcasting}
+                connectedChannelsCount={channels.length}
+                maxQuota={5}
+              />
+
+              {/* Row 2: 3 Analytics & Metric Cards matching Apex reference */}
+              <AnalyticsCharts />
+
+              {/* Row 3: Full-width Glass Destinations & Channels Table matching Apex reference */}
+              <ApexTable
+                channels={channels}
+                selectedDestinations={selectedDestinations}
+                onToggleDestination={toggleDestination}
+                onEditChannel={() => setIsUpdateTitlesModalOpen(true)}
+                onDisconnectChannel={(c) => {
+                  if (confirm(`Disconnect ${c.name}?`)) {
+                    fetch(`/api/channels/${c.id}`, { method: 'DELETE' }).then(() => loadOrgChannels());
+                  }
+                }}
+              />
+
+              {/* Streams Listing View for managing individual stream drafts */}
+              <div className="pt-4">
+                <StreamsListView
+                  onOpenNewStreamModal={() => setIsCreateStreamModalOpen(true)}
+                  onOpenEncoderStudio={() => setActiveTab('studio')}
+                  broadcastTitle={broadcastTitle}
+                  connectedChannelsCount={channels.length}
+                />
+              </div>
+            </div>
           )}
 
-          {/* Tab 2: Live Encoder Studio (Image 3) */}
+          {/* Tab 2: Live Encoder Studio (matching Restream studio reference) */}
           {activeTab === 'studio' && (
             <EncoderStudioView
               currentOrgId={currentOrgId}
@@ -396,15 +432,17 @@ export const App: React.FC = () => {
 
           {/* Tab 7: Webinars / Past streams / Clips / Storage / Analytics Placeholders */}
           {['webinars', 'past_streams', 'clips', 'storage', 'analytics'].includes(activeTab) && (
-            <div className="bg-[#111726] border border-[#1E293B] rounded-2xl p-12 text-center space-y-4">
-              <Tv className="w-12 h-12 text-blue-400 mx-auto" />
-              <h2 className="text-lg font-bold text-white capitalize">{activeTab.replace('_', ' ')} Studio</h2>
-              <p className="text-xs text-[#94A3B8] max-w-md mx-auto">
+            <div className="glass-panel p-12 text-center space-y-4">
+              <Tv className="w-12 h-12 text-[var(--accent)] mx-auto" />
+              <h2 className="text-lg font-bold text-[var(--text)] capitalize">
+                {activeTab.replace('_', ' ')} Studio
+              </h2>
+              <p className="text-xs text-[var(--text-muted)] max-w-md mx-auto">
                 Broadcasting and cloud processing pipeline integrated with official Appwrite storage and real-time streaming relay.
               </p>
               <button
                 onClick={() => setActiveTab('studio')}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold"
+                className="px-4 py-2 bg-[var(--accent)] hover:opacity-90 text-white rounded-xl text-xs font-semibold"
               >
                 Go to Encoder Studio
               </button>
@@ -413,10 +451,10 @@ export const App: React.FC = () => {
         </main>
       </div>
 
-      {/* Floating "Need Help?" Widget matching Restream screenshot */}
+      {/* Floating "Need Help?" Widget */}
       <HelpModal />
 
-      {/* "Create a new stream" Modal matching Image 2 */}
+      {/* "Create a new stream" Modal */}
       <CreateStreamModal
         isOpen={isCreateStreamModalOpen}
         onClose={() => setIsCreateStreamModalOpen(false)}
@@ -431,7 +469,7 @@ export const App: React.FC = () => {
         }}
       />
 
-      {/* Stream Settings Modal matching Image 4 */}
+      {/* Stream Settings Modal */}
       <StreamSettingsModal
         isOpen={isSettingsModalOpen}
         onClose={() => setIsSettingsModalOpen(false)}

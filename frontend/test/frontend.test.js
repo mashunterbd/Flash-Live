@@ -19,3 +19,13 @@ test('frontend tailwind config contains approved restream studio tokens', () => 
   assert.match(tailwind, /#131B2E/, 'Surface token must match DESIGN.md');
 });
 
+test('frontend index.css defines all 3 Apex themes (dark, light, green)', () => {
+  const cssPath = path.resolve(process.cwd(), 'src/index.css');
+  assert.ok(fs.existsSync(cssPath), 'src/index.css must exist');
+  const css = fs.readFileSync(cssPath, 'utf8');
+  assert.ok(css.includes('[data-theme="dark"]'), 'Dark theme token definitions must exist');
+  assert.ok(css.includes('[data-theme="light"]'), 'Light theme token definitions must exist');
+  assert.ok(css.includes('[data-theme="green"]'), 'Green theme token definitions must exist');
+  assert.ok(css.includes('--bg-glow'), 'Atmospheric glow radial gradient must exist');
+});
+

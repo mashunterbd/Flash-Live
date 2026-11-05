@@ -43,9 +43,17 @@
   - Built Live Encoder Studio (`EncoderStudioView.tsx`) with multi-protocol tabs (`RTMP`, `RTMPS`, `SRT`, `WHIP BETA`), secured stream credentials with reveal/reset/copy, event backup banner, and right channels panel with circular channel avatars.
   - Built Stream Settings Modal (`StreamSettingsModal.tsx`) and Unified Title Synchronizer (`UpdateTitlesModal.tsx`).
   - Built floating Help Widget (`HelpModal.tsx`).
+- **Apex-Style Glass Dashboard Redesign with 3 Switchable Themes (Dark, Light, Green):**
+  - Built design token engine with CSS variables on `[data-theme="dark" | "light" | "green"]` in `frontend/src/index.css` and exposed via Tailwind.
+  - Created `ApexSidebar.tsx` with brand logo, workspace switcher, search input with `⌘K`, grouped navigation, and bottom "Verify this device" security card with QR code.
+  - Created `ApexTopBar.tsx` with page title, time-range segmented pill control (`12 months`, `30 days`, `7 days`, `24 hours`), "Select dates" and "Filters" buttons, 3-pill theme toggle (`Dark` / `Light` / `Green`), notifications, and user avatar.
+  - Created `KPICards.tsx`, `AnalyticsCharts.tsx` (with glowing SVG waveform and cylindrical bars chart), and `ApexTable.tsx` (matching the full-width data table).
+  - Refactored all platform views (`EncoderStudioView`, `DestinationsView`, `OrganizationsView`, `SessionsView`, `SuperAdminPanel`, `StreamsListView`) and modals (`CreateStreamModal`, `StreamSettingsModal`, `UpdateTitlesModal`, `AuthModal`, `HelpModal`) to glassmorphism tokens.
+  - Verified responsive design across Desktop (1440px) and Mobile (390px) with sliding drawer navigation.
+  - All 6 pre-push checks passed with zero unhandled errors.
 
 ## 3. In Progress
-- **None**: All core features implemented, verified, and quality-gated.
+- **None**: All core features and Apex 3-theme visual transformation completed and verified.
 
 ## 4. Key Decisions
 | Date | Decision | Reason |
@@ -57,6 +65,7 @@
 | 2026-11-05 | Restream Studio dark theme | Approved clean aesthetic for multi-destination live broadcast dashboard |
 | 2026-11-05 | Automatic `admin` label-driven role | Super Admin strictly governed by Appwrite Auth user label |
 | 2026-11-05 | Circular logos for channels & pages | Mandatory per DESIGN.md Section 5 |
+| 2026-11-05 | Apex Glassmorphism with 3 Switchable Themes | Delivered 1:1 match with user's Apex visual reference: Dark, Light, Green tokens, semi-transparent glass cards, inner highlights, glowing SVGs, and responsive mobile drawer |
 
 ## 5. Important Notes
 - Test users are pre-configured in `backend/.env`. Use them for all testing.

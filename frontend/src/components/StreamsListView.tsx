@@ -74,14 +74,14 @@ export const StreamsListView: React.FC<StreamsListViewProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Upgrade Promotional Banner matching Image 1 */}
-      <div className="bg-gradient-to-r from-purple-900/40 via-indigo-900/40 to-blue-900/40 border border-purple-500/30 rounded-xl p-3.5 flex items-center justify-between shadow-lg">
+      <div className="glass-card p-4 flex items-center justify-between shadow-lg border border-[var(--border)] bg-gradient-to-r from-[var(--surface-elevated)] to-[var(--surface)]">
         <div className="flex items-center space-x-2.5">
-          <Sparkles className="w-5 h-5 text-purple-400" />
-          <span className="text-xs font-semibold text-white tracking-wide">
-            Get more power from Flash Live! <strong className="text-purple-300">Upgrade to Pro Studio</strong>
+          <Sparkles className="w-5 h-5 text-[var(--accent)]" />
+          <span className="text-xs font-semibold text-[var(--text)] tracking-wide">
+            Get more power from Flash Live! <strong className="text-[var(--accent)]">Upgrade to Pro Studio</strong>
           </span>
         </div>
-        <button className="text-xs bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-1.5 rounded-lg transition-colors shadow">
+        <button className="text-xs bg-[var(--accent)] hover:opacity-90 text-white font-semibold px-4 py-1.5 rounded-xl transition-opacity shadow">
           Upgrade
         </button>
       </div>
@@ -89,15 +89,15 @@ export const StreamsListView: React.FC<StreamsListViewProps> = ({
       {/* Main Header & New Stream Button */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Streams</h1>
-          <p className="text-xs text-[#94A3B8] mt-0.5">
+          <h2 className="text-xl font-bold text-[var(--text)] tracking-tight">Active Broadcast Streams</h2>
+          <p className="text-xs text-[var(--text-muted)] mt-0.5">
             Manage RTMP broadcasts, studio sessions, and scheduled live events.
           </p>
         </div>
 
         <button
           onClick={onOpenNewStreamModal}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-lg shadow-blue-600/25 flex items-center space-x-2 min-h-[38px] shrink-0"
+          className="bg-[var(--accent)] hover:opacity-90 text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-lg shadow-[var(--accent-glow)] flex items-center space-x-2 min-h-[38px] shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>+ New Stream</span>
@@ -105,15 +105,15 @@ export const StreamsListView: React.FC<StreamsListViewProps> = ({
       </div>
 
       {/* Filter Tabs matching Image 1: All, Drafts, Scheduled */}
-      <div className="flex items-center space-x-2 border-b border-[#1E293B] pb-3">
+      <div className="flex items-center space-x-2 border-b border-[var(--border)] pb-3">
         {(['all', 'drafts', 'scheduled'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setFilterTab(tab)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors capitalize ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors capitalize ${
               filterTab === tab
-                ? 'bg-[#1C2538] text-white shadow-sm'
-                : 'text-slate-400 hover:text-white hover:bg-[#131B2E]'
+                ? 'bg-[var(--surface-hover)] text-[var(--text)] border border-[var(--border)] shadow-sm'
+                : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface)]'
             }`}
           >
             {tab === 'all' ? 'All' : tab}
@@ -122,9 +122,9 @@ export const StreamsListView: React.FC<StreamsListViewProps> = ({
       </div>
 
       {/* Streams Roster Table matching Image 1 */}
-      <div className="bg-[#111726] border border-[#1E293B] rounded-2xl overflow-hidden shadow-sm">
-        <table className="w-full text-left text-xs text-slate-200">
-          <thead className="bg-[#0B0F17]/80 text-[#94A3B8] uppercase font-semibold border-b border-[#1E293B]">
+      <div className="glass-panel overflow-hidden">
+        <table className="w-full text-left text-xs text-[var(--text)]">
+          <thead className="bg-[var(--surface-card)] text-[var(--text-muted)] uppercase font-semibold border-b border-[var(--border)]">
             <tr>
               <th className="px-5 py-3.5">
                 <div className="flex items-center space-x-1.5">
@@ -148,30 +148,30 @@ export const StreamsListView: React.FC<StreamsListViewProps> = ({
               <th className="px-5 py-3.5 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#1E293B]">
+          <tbody className="divide-y divide-[var(--border)]">
             {filtered.map((stream) => (
               <tr
                 key={stream.id}
                 onClick={onOpenEncoderStudio}
-                className="hover:bg-[#162035] cursor-pointer transition-colors group"
+                className="hover:bg-[var(--surface-hover)] cursor-pointer transition-colors group"
               >
                 {/* Title & Preview Thumbnail */}
                 <td className="px-5 py-4">
                   <div className="flex items-center space-x-3.5">
                     {/* Thumbnail Card with live broadcast iconography */}
-                    <div className="w-20 h-12 bg-[#0B0F17] rounded-lg border border-[#1E293B] flex items-center justify-center relative overflow-hidden shrink-0 group-hover:border-blue-500/40 transition-colors">
+                    <div className="w-20 h-12 bg-[var(--surface)] rounded-xl border border-[var(--border)] flex items-center justify-center relative overflow-hidden shrink-0 group-hover:border-[var(--accent)] transition-colors">
                       {stream.type === 'rtmp' ? (
-                        <div className="flex items-center space-x-1.5 text-slate-400">
-                          <Radio className="w-4 h-4 text-blue-400" />
+                        <div className="flex items-center space-x-1.5 text-[var(--text-muted)]">
+                          <Radio className="w-4 h-4 text-[var(--accent)]" />
                           <span className="text-[10px] font-mono font-bold">OBS</span>
                         </div>
                       ) : stream.type === 'studio' ? (
-                        <div className="flex items-center space-x-1 text-slate-400">
+                        <div className="flex items-center space-x-1 text-[var(--text-muted)]">
                           <Video className="w-4 h-4 text-purple-400" />
                           <span className="text-[10px] font-mono font-bold">LIVE</span>
                         </div>
                       ) : (
-                        <div className="flex items-center space-x-1 text-slate-400">
+                        <div className="flex items-center space-x-1 text-[var(--text-muted)]">
                           <Calendar className="w-4 h-4 text-emerald-400" />
                           <span className="text-[10px] font-mono font-bold">WEB</span>
                         </div>
@@ -179,11 +179,11 @@ export const StreamsListView: React.FC<StreamsListViewProps> = ({
                     </div>
 
                     <div>
-                      <div className="font-semibold text-white group-hover:text-blue-400 transition-colors flex items-center space-x-2">
+                      <div className="font-semibold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors flex items-center space-x-2">
                         <span>{stream.title}</span>
-                        <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-blue-400" />
+                        <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-[var(--accent)]" />
                       </div>
-                      <div className="text-[11px] text-[#94A3B8] font-medium mt-0.5">
+                      <div className="text-[11px] text-[var(--text-muted)] font-medium mt-0.5">
                         {stream.subtitle}
                       </div>
                     </div>
@@ -193,12 +193,12 @@ export const StreamsListView: React.FC<StreamsListViewProps> = ({
                 {/* Status Pill */}
                 <td className="px-5 py-4">
                   <span
-                    className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border ${
+                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold border ${
                       stream.status === 'Draft'
-                        ? 'bg-slate-800 text-slate-300 border-slate-700'
+                        ? 'bg-[var(--surface)] text-[var(--text-muted)] border-[var(--border)]'
                         : stream.status === 'Live'
-                        ? 'bg-red-500/10 text-red-400 border-red-500/30'
-                        : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                        ? 'bg-red-500/10 text-[var(--danger)] border-red-500/30'
+                        : 'bg-blue-500/10 text-[var(--accent)] border-blue-500/20'
                     }`}
                   >
                     {stream.status}
@@ -206,16 +206,16 @@ export const StreamsListView: React.FC<StreamsListViewProps> = ({
                 </td>
 
                 {/* Connected Channels Counter */}
-                <td className="px-5 py-4 text-slate-300 font-mono text-xs">
+                <td className="px-5 py-4 text-[var(--text)] font-mono text-xs">
                   {stream.channelsCount > 0 ? (
-                    <span className="text-blue-400 font-semibold">{stream.channelsCount} active</span>
+                    <span className="text-[var(--accent)] font-semibold">{stream.channelsCount} active</span>
                   ) : (
-                    <span className="text-slate-500">—</span>
+                    <span className="text-[var(--text-muted)]">—</span>
                   )}
                 </td>
 
                 {/* Last Edited Timestamp */}
-                <td className="px-5 py-4 text-slate-400 text-xs">
+                <td className="px-5 py-4 text-[var(--text-muted)] text-xs">
                   {stream.lastEdited}
                 </td>
 
@@ -226,7 +226,7 @@ export const StreamsListView: React.FC<StreamsListViewProps> = ({
                       e.stopPropagation();
                       onOpenEncoderStudio();
                     }}
-                    className="p-1.5 text-slate-400 hover:text-white hover:bg-[#1E293B] rounded-lg transition-colors"
+                    className="p-1.5 text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-hover)] rounded-lg transition-colors"
                   >
                     <MoreVertical className="w-4 h-4" />
                   </button>

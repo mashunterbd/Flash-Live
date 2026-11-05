@@ -78,7 +78,6 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
       const res = await fetch(`/api/channels/${platform}/oauth-url?orgId=${encodeURIComponent(currentOrgId)}`);
       const data = await res.json();
       if (data.url) {
-        // Open OAuth dialog in a centered popup window
         const width = 600;
         const height = 700;
         const left = window.screenX + (window.outerWidth - width) / 2;
@@ -177,32 +176,32 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Header & Quota Card */}
-      <div className="bg-[#131B2E] border border-[#1E293B] rounded-xl p-6 shadow-sm">
+      {/* Header & Quota Card in Glass Style */}
+      <div className="glass-panel p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2">
-              <Tv className="w-5 h-5 text-blue-400" />
-              <h2 className="text-lg font-bold text-white">Connected Streaming Destinations</h2>
+              <Tv className="w-5 h-5 text-[var(--accent)]" />
+              <h2 className="text-lg font-bold text-[var(--text)]">Connected Streaming Destinations</h2>
             </div>
-            <p className="text-xs text-[#94A3B8] mt-1">
+            <p className="text-xs text-[var(--text-muted)] mt-1">
               Connect official Facebook Pages and YouTube Channels to broadcast live streams simultaneously.
             </p>
           </div>
 
           {/* Quota Progress */}
-          <div className="flex items-center space-x-4 bg-[#0B0F17] px-4 py-2.5 rounded-lg border border-[#1E293B]">
+          <div className="flex items-center space-x-4 glass-card px-4 py-2.5 border-[var(--border)] bg-[var(--surface)]">
             <div>
-              <div className="text-[11px] text-[#94A3B8] font-medium">Organization Quota</div>
-              <div className="text-sm font-bold text-white">
-                <span className={isQuotaReached ? 'text-amber-400' : 'text-blue-400'}>{channels.length}</span>
-                <span className="text-slate-500"> / {quota} channels</span>
+              <div className="text-[11px] text-[var(--text-muted)] font-medium">Organization Quota</div>
+              <div className="text-sm font-bold text-[var(--text)] font-mono">
+                <span className={isQuotaReached ? 'text-[var(--warning)]' : 'text-[var(--accent)]'}>{channels.length}</span>
+                <span className="text-[var(--text-muted)]"> / {quota} channels</span>
               </div>
             </div>
-            <div className="w-24 h-2 bg-slate-800 rounded-full overflow-hidden">
+            <div className="w-24 h-2 bg-white/10 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-300 ${
-                  isQuotaReached ? 'bg-amber-500' : 'bg-blue-500'
+                  isQuotaReached ? 'bg-[var(--warning)]' : 'bg-[var(--accent)]'
                 }`}
                 style={{ width: `${Math.min(100, (channels.length / quota) * 100)}%` }}
               />
@@ -212,7 +211,7 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
 
         {/* Quota limit warning */}
         {isQuotaReached && (
-          <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center space-x-2 text-xs text-amber-300">
+          <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center space-x-2 text-xs text-[var(--warning)]">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>
               You have reached your organization connection quota ({quota} channels). To add more channels, contact a Super Admin to increase your limit.
@@ -228,10 +227,10 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
               setShowConnectModal('facebook');
             }}
             disabled={isQuotaReached}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 transition-colors min-h-[38px] ${
+            className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-2 transition-all min-h-[38px] ${
               isQuotaReached
-                ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
-                : 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm'
+                ? 'opacity-50 cursor-not-allowed bg-[var(--surface)] text-[var(--text-muted)] border border-[var(--border)]'
+                : 'bg-blue-600 hover:bg-blue-700 text-white shadow-md'
             }`}
           >
             <Plus className="w-4 h-4" />
@@ -244,10 +243,10 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
               setShowConnectModal('youtube');
             }}
             disabled={isQuotaReached}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-2 transition-colors min-h-[38px] ${
+            className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-2 transition-all min-h-[38px] ${
               isQuotaReached
-                ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
-                : 'bg-red-600 hover:bg-red-700 text-white shadow-sm'
+                ? 'opacity-50 cursor-not-allowed bg-[var(--surface)] text-[var(--text-muted)] border border-[var(--border)]'
+                : 'bg-red-600 hover:bg-red-700 text-white shadow-md'
             }`}
           >
             <Plus className="w-4 h-4" />
@@ -258,36 +257,36 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
 
       {/* Notifications */}
       {error && (
-        <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg flex items-center justify-between text-xs text-red-400">
+        <div className="p-3.5 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-between text-xs text-[var(--danger)]">
           <div className="flex items-center space-x-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
           </div>
-          <button onClick={() => setError(null)} className="text-slate-400 hover:text-white">✕</button>
+          <button onClick={() => setError(null)} className="text-[var(--text-muted)] hover:text-[var(--text)]">✕</button>
         </div>
       )}
 
       {success && (
-        <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-between text-xs text-emerald-400">
+        <div className="p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-between text-xs text-[var(--success)]">
           <div className="flex items-center space-x-2">
             <CheckCircle className="w-4 h-4 shrink-0" />
             <span>{success}</span>
           </div>
-          <button onClick={() => setSuccess(null)} className="text-slate-400 hover:text-white">✕</button>
+          <button onClick={() => setSuccess(null)} className="text-[var(--text-muted)] hover:text-[var(--text)]">✕</button>
         </div>
       )}
 
       {/* Channels Grid / Roster */}
       {loading ? (
-        <div className="p-12 text-center bg-[#131B2E] border border-[#1E293B] rounded-xl">
+        <div className="p-12 text-center glass-panel">
           <Spinner size="lg" className="mx-auto mb-3" />
-          <p className="text-xs text-[#94A3B8]">Loading connected destinations...</p>
+          <p className="text-xs text-[var(--text-muted)]">Loading connected destinations...</p>
         </div>
       ) : channels.length === 0 ? (
-        <div className="p-12 text-center bg-[#131B2E] border border-[#1E293B] rounded-xl space-y-3">
-          <Tv className="w-12 h-12 text-slate-600 mx-auto" />
-          <h3 className="text-base font-bold text-white">No Channels Connected Yet</h3>
-          <p className="text-xs text-[#94A3B8] max-w-md mx-auto">
+        <div className="p-12 text-center glass-panel space-y-3">
+          <Tv className="w-12 h-12 text-[var(--text-muted)] mx-auto opacity-40" />
+          <h3 className="text-base font-bold text-[var(--text)]">No Channels Connected Yet</h3>
+          <p className="text-xs text-[var(--text-muted)] max-w-md mx-auto">
             Connect your Facebook Pages or YouTube Channels using the buttons above to enable simultaneous live streaming.
           </p>
         </div>
@@ -298,7 +297,7 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
             return (
               <div
                 key={channel.id}
-                className="bg-[#131B2E] border border-[#1E293B] hover:border-slate-700 rounded-xl p-5 shadow-sm transition-all flex flex-col justify-between"
+                className="glass-card p-5 flex flex-col justify-between"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3.5">
@@ -309,16 +308,10 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
                           ? 'https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg'
                           : 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg')}
                         alt={channel.name}
-                        className="w-12 h-12 rounded-full object-cover ring-2 ring-slate-700 bg-[#0B0F17]"
-                        onError={(e) => {
-                          // Fallback on broken image
-                          (e.currentTarget as HTMLImageElement).src = isFb
-                            ? 'https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg'
-                            : 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg';
-                        }}
+                        className="w-12 h-12 rounded-full object-cover ring-2 ring-[var(--border)] bg-[var(--surface)]"
                       />
                       <span
-                        className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow ring-2 ring-[#131B2E] ${
+                        className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow ring-2 ring-[var(--surface-card)] ${
                           isFb ? 'bg-blue-600' : 'bg-red-600'
                         }`}
                       >
@@ -327,13 +320,13 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-semibold text-white tracking-tight flex items-center space-x-2">
+                      <h4 className="text-sm font-semibold text-[var(--text)] tracking-tight flex items-center space-x-2">
                         <span>{channel.name}</span>
-                        <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.2 rounded font-mono">
+                        <span className="text-[10px] bg-emerald-500/10 text-[var(--success)] border border-emerald-500/20 px-1.5 py-0.2 rounded font-mono">
                           ACTIVE
                         </span>
                       </h4>
-                      <p className="text-[11px] text-[#94A3B8] font-mono mt-0.5">
+                      <p className="text-[11px] text-[var(--text-muted)] font-mono mt-0.5">
                         ID: {channel.externalId}
                       </p>
                     </div>
@@ -342,7 +335,7 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
                   <button
                     onClick={() => handleDisconnect(channel)}
                     disabled={actionLoading === channel.id}
-                    className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors min-h-[32px] min-w-[32px] flex items-center justify-center"
+                    className="p-1.5 text-[var(--text-muted)] hover:text-[var(--danger)] hover:bg-red-500/10 rounded-lg transition-colors min-h-[32px] min-w-[32px] flex items-center justify-center"
                     title="Disconnect Channel"
                   >
                     {actionLoading === channel.id ? <Spinner size="sm" /> : <Trash2 className="w-4 h-4" />}
@@ -350,13 +343,13 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
                 </div>
 
                 {/* Permissions & Connection Timestamp */}
-                <div className="mt-4 pt-3 border-t border-[#1E293B] flex items-center justify-between text-[11px] text-[#94A3B8]">
+                <div className="mt-4 pt-3 border-t border-[var(--border)] flex items-center justify-between text-[11px] text-[var(--text-muted)]">
                   <div className="flex items-center space-x-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+                    <ShieldCheck className="w-3.5 h-3.5 text-[var(--accent)]" />
                     <span>Live broadcast verified</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <Clock className="w-3.5 h-3.5 text-slate-500" />
+                    <Clock className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                     <span>{new Date(channel.connectedAt).toLocaleDateString()}</span>
                   </div>
                 </div>
@@ -368,9 +361,9 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
 
       {/* Connection Flow Modal (Facebook / YouTube) */}
       {showConnectModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
-          <div className="bg-[#131B2E] border border-[#1E293B] rounded-xl max-w-md w-full p-6 shadow-2xl space-y-5">
-            <div className="flex items-center justify-between border-b border-[#1E293B] pb-4">
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+          <div className="glass-panel max-w-md w-full p-6 space-y-5 bg-[var(--surface-elevated)] border-[var(--border)]">
+            <div className="flex items-center justify-between border-b border-[var(--border)] pb-4">
               <div className="flex items-center space-x-2.5">
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow ${
@@ -380,37 +373,37 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
                   {showConnectModal === 'facebook' ? 'f' : 'yt'}
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">
+                  <h3 className="text-base font-bold text-[var(--text)]">
                     Connect {showConnectModal === 'facebook' ? 'Facebook Page' : 'YouTube Channel'}
                   </h3>
-                  <p className="text-[11px] text-[#94A3B8]">Request live streaming permissions</p>
+                  <p className="text-[11px] text-[var(--text-muted)]">Request live streaming permissions</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowConnectModal(null)}
-                className="text-slate-400 hover:text-white text-lg p-1"
+                className="text-[var(--text-muted)] hover:text-[var(--text)] text-lg p-1"
               >
                 ✕
               </button>
             </div>
 
             {/* Live Streaming Permissions Required Per PRD 4.3 */}
-            <div className="bg-[#0B0F17] border border-[#1E293B] rounded-lg p-3.5 space-y-2">
-              <div className="text-xs font-semibold text-white flex items-center space-x-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="glass-card p-3.5 space-y-2 bg-[var(--surface)] border-[var(--border)]">
+              <div className="text-xs font-semibold text-[var(--text)] flex items-center space-x-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-[var(--success)]" />
                 <span>Required Permissions for Simultaneous Broadcasting:</span>
               </div>
-              <ul className="text-[11px] text-[#94A3B8] space-y-1 list-disc list-inside">
+              <ul className="text-[11px] text-[var(--text-muted)] space-y-1 list-disc list-inside">
                 {showConnectModal === 'facebook' ? (
                   <>
-                    <li><span className="font-mono text-slate-300">pages_show_list</span>: View managed Facebook Pages</li>
-                    <li><span className="font-mono text-slate-300">publish_video</span>: Publish live video RTMP feeds</li>
-                    <li><span className="font-mono text-slate-300">pages_manage_posts</span>: Broadcast updates to fans</li>
+                    <li><span className="font-mono text-[var(--text)]">pages_show_list</span>: View managed Facebook Pages</li>
+                    <li><span className="font-mono text-[var(--text)]">publish_video</span>: Publish live video RTMP feeds</li>
+                    <li><span className="font-mono text-[var(--text)]">pages_manage_posts</span>: Broadcast updates to fans</li>
                   </>
                 ) : (
                   <>
-                    <li><span className="font-mono text-slate-300">youtube.readonly</span>: Access YouTube live channel details</li>
-                    <li><span className="font-mono text-slate-300">youtube.force-ssl</span>: Create & dispatch live RTMP broadcasts</li>
+                    <li><span className="font-mono text-[var(--text)]">youtube.readonly</span>: Access YouTube live channel details</li>
+                    <li><span className="font-mono text-[var(--text)]">youtube.force-ssl</span>: Create & dispatch live RTMP broadcasts</li>
                   </>
                 )}
               </ul>
@@ -418,13 +411,13 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
 
             {/* Choice 1: Official OAuth Dialog */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider">
+              <label className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider">
                 Option 1: Official OAuth Login
               </label>
               <button
                 onClick={() => handleOAuthConnect(showConnectModal)}
                 disabled={actionLoading === `oauth_${showConnectModal}`}
-                className={`w-full py-2.5 rounded-lg text-xs font-semibold text-white transition-colors flex items-center justify-center space-x-2 min-h-[38px] ${
+                className={`w-full py-2.5 rounded-xl text-xs font-semibold text-white transition-opacity flex items-center justify-center space-x-2 min-h-[38px] shadow-sm ${
                   showConnectModal === 'facebook'
                     ? 'bg-blue-600 hover:bg-blue-700'
                     : 'bg-red-600 hover:bg-red-700'
@@ -441,14 +434,14 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
               </button>
             </div>
 
-            {/* Choice 2: Instant Connection via Page/Channel ID & Name (ideal for local testing / production tokens) */}
-            <div className="space-y-3 pt-3 border-t border-[#1E293B]">
-              <label className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider">
-                Option 2: Direct Connection (Quick Add / Pre-authenticated)
+            {/* Choice 2: Instant Direct Connection */}
+            <div className="space-y-3 pt-3 border-t border-[var(--border)]">
+              <label className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider">
+                Option 2: Direct Connection (Pre-authenticated / QA)
               </label>
 
               <div>
-                <label className="text-[11px] text-slate-300 block mb-1">
+                <label className="text-[11px] text-[var(--text)] block mb-1">
                   {showConnectModal === 'facebook' ? 'Facebook Page Name' : 'YouTube Channel Name'}
                 </label>
                 <input
@@ -456,12 +449,12 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
                   placeholder={showConnectModal === 'facebook' ? 'e.g. Acme News Official' : 'e.g. Acme Tech Studio 24/7'}
                   value={customName}
                   onChange={(e) => setCustomName(e.target.value)}
-                  className="w-full bg-[#0B0F17] border border-[#1E293B] focus:border-blue-500 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none"
+                  className="w-full glass-input px-3 py-2 text-xs text-[var(--text)] placeholder-[var(--text-muted)] bg-[var(--surface)]"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] text-slate-300 block mb-1">
+                <label className="text-[11px] text-[var(--text)] block mb-1">
                   {showConnectModal === 'facebook' ? 'Facebook Page ID' : 'YouTube Channel ID'}
                 </label>
                 <input
@@ -469,20 +462,20 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
                   placeholder={showConnectModal === 'facebook' ? 'e.g. fb_page_892182019' : 'e.g. UC_x1g82f910a827'}
                   value={customId}
                   onChange={(e) => setCustomId(e.target.value)}
-                  className="w-full bg-[#0B0F17] border border-[#1E293B] focus:border-blue-500 rounded-lg px-3 py-2 text-xs text-white font-mono placeholder-slate-500 focus:outline-none"
+                  className="w-full glass-input px-3 py-2 text-xs text-[var(--text)] font-mono placeholder-[var(--text-muted)] bg-[var(--surface)]"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] text-slate-300 block mb-1">
-                  Logo / Avatar Image URL (Optional - default used if empty)
+                <label className="text-[11px] text-[var(--text)] block mb-1">
+                  Logo / Avatar Image URL (Optional)
                 </label>
                 <input
                   type="text"
                   placeholder="https://..."
                   value={customLogo}
                   onChange={(e) => setCustomLogo(e.target.value)}
-                  className="w-full bg-[#0B0F17] border border-[#1E293B] focus:border-blue-500 rounded-lg px-3 py-2 text-xs text-white font-mono placeholder-slate-500 focus:outline-none"
+                  className="w-full glass-input px-3 py-2 text-xs text-[var(--text)] font-mono placeholder-[var(--text-muted)] bg-[var(--surface)]"
                 />
               </div>
 
@@ -490,7 +483,7 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowConnectModal(null)}
-                  className="px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-[#1E293B]"
+                  className="px-3 py-1.5 rounded-lg text-xs text-[var(--text-muted)] hover:text-[var(--text)]"
                 >
                   Cancel
                 </button>
@@ -498,7 +491,7 @@ export const DestinationsView: React.FC<DestinationsViewProps> = ({
                   type="button"
                   onClick={() => handleManualConnect(showConnectModal)}
                   disabled={actionLoading === 'manual_connect'}
-                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white min-h-[34px] flex items-center space-x-1.5"
+                  className="px-4 py-1.5 rounded-xl text-xs font-semibold bg-[var(--accent)] hover:opacity-90 text-white min-h-[34px] flex items-center space-x-1.5 shadow-sm"
                 >
                   {actionLoading === 'manual_connect' ? <Spinner size="sm" /> : <span>Confirm Connection</span>}
                 </button>

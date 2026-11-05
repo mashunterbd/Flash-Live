@@ -60,31 +60,31 @@ export const UpdateTitlesModal: React.FC<UpdateTitlesModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
-      <div className="bg-[#111726] border border-[#1E293B] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
-        <div className="flex items-center justify-between border-b border-[#1E293B] pb-3">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+      <div className="glass-panel max-w-md w-full p-6 shadow-2xl space-y-5">
+        <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
           <div className="flex items-center space-x-2">
-            <Sparkles className="w-5 h-5 text-blue-400" />
-            <h3 className="text-base font-bold text-white">Update Stream Titles</h3>
+            <Sparkles className="w-5 h-5 text-[var(--accent)]" />
+            <h3 className="text-base font-bold text-[var(--text)]">Update Stream Titles</h3>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors"
+            className="text-[var(--text-muted)] hover:text-[var(--text)] p-1 rounded-lg transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <p className="text-xs text-[#94A3B8]">
+        <p className="text-xs text-[var(--text-muted)]">
           Editing the unified title propagates immediately to all selected Facebook Pages and YouTube Channels.
         </p>
 
         {feedback && (
           <div
-            className={`p-3 rounded-lg border text-xs flex items-center space-x-2 ${
+            className={`p-3 rounded-xl border text-xs flex items-center space-x-2 ${
               feedback.type === 'success'
-                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                : 'bg-red-500/10 border-red-500/30 text-red-400'
+                ? 'bg-emerald-500/10 border-emerald-500/30 text-[var(--success)]'
+                : 'bg-red-500/10 border-red-500/30 text-[var(--danger)]'
             }`}
           >
             {feedback.type === 'success' ? (
@@ -98,7 +98,7 @@ export const UpdateTitlesModal: React.FC<UpdateTitlesModalProps> = ({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-xs font-semibold text-slate-300 block mb-1.5">
+            <label className="text-xs font-semibold text-[var(--text-muted)] block mb-1.5">
               Broadcast Title
             </label>
             <input
@@ -107,7 +107,7 @@ export const UpdateTitlesModal: React.FC<UpdateTitlesModalProps> = ({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Breaking News & Global Insights Live"
-              className="w-full bg-[#0B0F17] border border-[#1E293B] focus:border-blue-500 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none"
+              className="w-full glass-input rounded-xl px-3.5 py-2.5 text-sm text-[var(--text)] placeholder-[var(--text-muted)] bg-[var(--surface-card)] border-[var(--border)] focus:outline-none"
             />
           </div>
 
@@ -115,14 +115,14 @@ export const UpdateTitlesModal: React.FC<UpdateTitlesModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-[#1E293B]"
+              className="px-3 py-1.5 rounded-xl text-xs text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-hover)]"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || !title.trim()}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold flex items-center space-x-1.5 min-h-[36px]"
+              className="px-4 py-2 bg-[var(--accent)] hover:opacity-90 text-white rounded-xl text-xs font-semibold flex items-center space-x-1.5 min-h-[36px] transition-opacity"
             >
               {loading ? <Spinner size="sm" /> : <span>Update Across All</span>}
             </button>

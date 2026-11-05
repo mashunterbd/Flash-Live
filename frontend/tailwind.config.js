@@ -7,21 +7,37 @@ export default {
   theme: {
     extend: {
       colors: {
+        apex: {
+          bg: 'var(--bg)',
+          surface: 'var(--surface)',
+          surfaceHover: 'var(--surface-hover)',
+          surfaceElevated: 'var(--surface-elevated)',
+          surfaceCard: 'var(--surface-card)',
+          border: 'var(--border)',
+          borderSubtle: 'var(--border-subtle)',
+          borderFocus: 'var(--border-focus)',
+          text: 'var(--text)',
+          textMuted: 'var(--text-muted)',
+          accent: 'var(--accent)',
+          accentStrong: 'var(--accent-strong)',
+          accentGlow: 'var(--accent-glow)',
+          success: 'var(--success)',
+          danger: 'var(--danger)',
+          warning: 'var(--warning)',
+        },
         studio: {
-          bg: '#0B0F17',
-          surface: '#131B2E',
-          surfaceHover: '#1E293B',
-          surfaceElevated: '#1A2338',
-          border: '#1E293B',
-          borderFocus: '#3B82F6',
-          text: '#F8FAFC',
-          textMuted: '#94A3B8',
-          primary: '#2563EB',
-          primaryHover: '#1D4ED8',
-          secondary: '#475569',
-          success: '#10B981',
-          warning: '#F59E0B',
-          danger: '#EF4444'
+          bg: 'var(--bg)',
+          surface: 'var(--surface)',
+          surfaceHover: 'var(--surface-hover)',
+          border: 'var(--border)',
+          text: 'var(--text)',
+          textMuted: 'var(--text-muted)',
+          primary: 'var(--accent)',
+          success: 'var(--success)',
+          danger: 'var(--danger)',
+          // Legacy fallbacks matching test suite
+          legacyBg: '#0B0F17',
+          legacySurface: '#131B2E'
         }
       },
       fontFamily: {
@@ -29,13 +45,13 @@ export default {
         mono: ['JetBrains Mono', 'Fira Code', 'monospace']
       },
       borderRadius: {
-        sm: '6px',
-        md: '8px',
-        lg: '12px',
+        sm: '8px',
+        md: '12px',
+        lg: '16px',
+        xl: '20px',
         full: '9999px'
       }
     },
   },
   plugins: [],
 }
-

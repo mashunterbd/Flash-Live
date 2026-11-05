@@ -1,111 +1,121 @@
-# DESIGN.md — Design System (Restream Studio Architecture)
+# DESIGN.md — Design System (Apex Glass Architecture with 3 Switchable Themes)
 
 > **Instruction to AI Agents:** Read this file before creating or modifying ANY UI component.
 > Do NOT alter colors, fonts, spacing, or component styles on your own.
+> All components must use CSS custom properties (design tokens) exclusively.
 
 ---
 
 ## 1. Design Direction
-- **Reference:** **Restream** & **Linear** live-streaming studio platforms.
-- **Principles:** High density, dark-mode first, professional, low-latency visual feedback, responsive, fast-loading.
-- **Tone:** Clean obsidian studio surfaces, vivid live indicator accents, crisp typography, clear contrast.
+- **Reference:** **Apex Glass Dashboard** & **Restream Multi-Destination Studio**.
+- **Principles:** Premium glassmorphism, semi-transparent frosted cards with 1px border and inner top highlight (`inset 0 1px 0 0 rgba(255,255,255,0.1)`), deep atmospheric background with soft CSS radial glow, generous spacing, high visual contrast, WCAG AA compliance (4.5:1).
+- **Themes Supported:** **Dark** (Default, deep navy), **Light** (Clean pearl with subtle lilac glow), **Green** (Fresh translucent mint glass).
 
 ---
 
-## 2. Color Tokens
+## 2. Three-Theme Design Tokens
 
+Tokens are declared on `[data-theme="dark" | "light" | "green"]` and persisted to `localStorage`.
+
+### Theme 1: Dark (Default — Matches Apex Reference)
 | Token | CSS Variable | Hex / Value | Usage |
 |---|---|---|---|
-| **Primary** | `--color-primary` | `#2563EB` (Blue 600) | Primary actions, CTAs, focus rings |
-| **Primary Hover** | `--color-primary-hover` | `#1D4ED8` (Blue 700) | Primary hover states |
-| **Secondary** | `--color-secondary` | `#475569` (Slate 600) | Secondary buttons, subtle actions |
-| **App Background** | `--color-bg` | `#0B0F17` (Deep Obsidian) | Main application canvas |
-| **Surface (Card)** | `--color-surface` | `#131B2E` (Navy Slate) | Cards, panels, sidebars, modal surfaces |
-| **Surface Hover** | `--color-surface-hover` | `#1E293B` (Slate 800) | Hovered table rows, interactive cards |
-| **Surface Elevated** | `--color-surface-elevated` | `#1A2338` | Popovers, dropdown menus, tooltips |
-| **Border / Divider** | `--color-border` | `#1E293B` (Slate 800) | Card outlines, table dividers |
-| **Border Focus** | `--color-border-focus` | `#3B82F6` (Blue 500) | Form input focus boundaries |
-| **Text Primary** | `--color-text` | `#F8FAFC` (Slate 50) | High-contrast body, titles, headings |
-| **Text Muted** | `--color-text-muted` | `#94A3B8` (Slate 400) | Metadata, descriptions, inactive icons |
-| **Success / Connected**| `--color-success` | `#10B981` (Emerald 500) | Active channels, healthy streams, connected |
-| **Warning** | `--color-warning` | `#F59E0B` (Amber 500) | Quota warnings, approaching limits |
-| **Danger / Live** | `--color-danger` | `#EF4444` (Red 500) | LIVE broadcasting indicator, destructive, errors |
-| **Live Pulsing Glow**| `--color-live-glow` | `rgba(239, 68, 68, 0.4)` | Live broadcast pulsing ring glow |
+| **Background** | `--bg` | `#070B1A` | Deep navy application canvas |
+| **Background Glow** | `--bg-glow` | `radial-gradient(circle at 75% 15%, rgba(42, 58, 143, 0.35) 0%, transparent 50%), radial-gradient(circle at 20% 85%, rgba(42, 58, 143, 0.20) 0%, transparent 40%)` | Atmospheric glow |
+| **Surface** | `--surface` | `rgba(255, 255, 255, 0.04)` | Glass cards, table rows, pills |
+| **Surface Hover** | `--surface-hover` | `rgba(255, 255, 255, 0.07)` | Hover states |
+| **Surface Elevated** | `--surface-elevated`| `rgba(255, 255, 255, 0.08)` | Dropdown menus, modal dialogs |
+| **Surface Card** | `--surface-card` | `rgba(13, 19, 39, 0.65)` | Primary container panels with 20px blur |
+| **Border** | `--border` | `rgba(255, 255, 255, 0.10)` | 1px card outlines, divider lines |
+| **Border Subtle** | `--border-subtle` | `rgba(255, 255, 255, 0.06)` | Sub-dividers, inner grids |
+| **Border Focus** | `--border-focus` | `#7C8CFF` | Focused inputs, primary rings |
+| **Inner Highlight** | `--highlight` | `inset 0 1px 0 0 rgba(255, 255, 255, 0.10)` | Glass top rim reflection |
+| **Text Primary** | `--text` | `#F3F5FA` | Headings, high-contrast values |
+| **Text Muted** | `--text-muted` | `#8B93A7` | Metadata, captions, inactive labels |
+| **Accent Primary** | `--accent` | `#7C8CFF` | Soft glowing indigo accent |
+| **Accent Strong** | `--accent-strong` | `#5B6EF5` | Active pills, primary buttons |
+| **Accent Glow** | `--accent-glow` | `rgba(124, 140, 255, 0.25)` | Button and orb glow shadows |
+| **Success** | `--success` | `#34D399` | Connected platforms, healthy streams |
+| **Danger / Live** | `--danger` | `#F87171` | ON AIR indicators, destructive actions |
+| **Warning** | `--warning` | `#FBBF24` | Quota approaching, alerts |
+
+### Theme 2: Light (Clean Pearl)
+| Token | CSS Variable | Hex / Value | Usage |
+|---|---|---|---|
+| **Background** | `--bg` | `#F4F6FB` | Crisp soft pearl canvas |
+| **Background Glow** | `--bg-glow` | `radial-gradient(circle at 75% 15%, rgba(220, 227, 255, 0.70) 0%, transparent 55%), radial-gradient(circle at 20% 85%, rgba(220, 227, 255, 0.40) 0%, transparent 40%)` | Soft lilac glow |
+| **Surface** | `--surface` | `rgba(255, 255, 255, 0.75)` | Frosted glass cards |
+| **Surface Hover** | `--surface-hover` | `rgba(255, 255, 255, 0.90)` | Hovered cards |
+| **Surface Elevated** | `--surface-elevated`| `#FFFFFF` | Solid elevated popovers |
+| **Surface Card** | `--surface-card` | `rgba(255, 255, 255, 0.78)` | Container panels |
+| **Border** | `--border` | `rgba(15, 23, 42, 0.08)` | Crisp borders |
+| **Inner Highlight** | `--highlight` | `inset 0 1px 0 0 rgba(255, 255, 255, 0.90)` | White glass sheen |
+| **Text Primary** | `--text` | `#0F172A` | Deep slate typography |
+| **Text Muted** | `--text-muted` | `#64748B` | Slate secondary text |
+| **Accent Primary** | `--accent` | `#4F5BD5` | Royal indigo accent |
+| **Success / Danger** | `--success` / `--danger` | `#16A34A` / `#DC2626` | Emerald / Ruby status |
+
+### Theme 3: Green (Soft Mint Glass)
+| Token | CSS Variable | Hex / Value | Usage |
+|---|---|---|---|
+| **Background** | `--bg` | `#F0FAF4` | Soft mint canvas |
+| **Background Glow** | `--bg-glow` | `radial-gradient(circle at 75% 15%, rgba(187, 247, 208, 0.65) 0%, transparent 55%), radial-gradient(circle at 20% 85%, rgba(187, 247, 208, 0.40) 0%, transparent 40%)` | Spring emerald glow |
+| **Surface** | `--surface` | `rgba(255, 255, 255, 0.70)` | Mint-frosted glass cards |
+| **Surface Hover** | `--surface-hover` | `rgba(255, 255, 255, 0.88)` | Hover states |
+| **Border** | `--border` | `rgba(6, 95, 70, 0.12)` | Mint border |
+| **Inner Highlight** | `--highlight` | `inset 0 1px 0 0 rgba(255, 255, 255, 0.90)` | Highlight sheen |
+| **Text Primary** | `--text` | `#0B2B20` | Deep forest dark text |
+| **Text Muted** | `--text-muted` | `#52705F` | Sage secondary text |
+| **Accent Primary** | `--accent` | `#10B981` | Emerald accent |
+| **Accent Strong** | `--accent-strong` | `#059669` | Deep emerald button |
 
 ---
 
 ## 3. Typography
-
 - **Font Family:** `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
-- **Monospace Family:** `JetBrains Mono, "Fira Code", ui-monospace, SFMono-Regular, monospace` (for Stream Keys, Ingest URLs, IDs)
+- **Monospace Family:** `JetBrains Mono, "Fira Code", monospace` (for Stream Keys, Ingest URLs, IDs)
+- **Tabular Figures:** `font-variant-numeric: tabular-nums` enforced on all numbers and metrics.
 
-### Type Scale
-| Role | Size | Line Height | Weight | Letter Spacing |
-|---|---|---|---|---|
-| **H1 (Page Title)** | `24px` (`1.5rem`) | `32px` | `700 (Bold)` | `-0.02em` |
-| **H2 (Section Title)** | `18px` (`1.125rem`) | `26px` | `600 (Semibold)` | `-0.01em` |
-| **H3 (Card Header)** | `15px` (`0.9375rem`) | `22px` | `600 (Semibold)` | `0` |
-| **Body (Default)** | `14px` (`0.875rem`) | `20px` | `400 (Regular)` | `0` |
-| **Body Strong** | `14px` (`0.875rem`) | `20px` | `500 (Medium)` | `0` |
-| **Caption / Meta** | `12px` (`0.75rem`) | `16px` | `400 (Regular)` | `+0.01em` |
-| **Code / Keys** | `13px` (`0.8125rem`) | `18px` | `500 (Medium)` | `0` |
+### Scale
+- **H1 (Page Title):** `24–28px` semibold (`font-bold tracking-tight`)
+- **Card Title:** `16–18px` medium (`font-bold`)
+- **KPI Value:** `28–36px` bold (`font-extrabold tracking-tight tabular-nums`)
+- **Body:** `13–14px` (`text-xs` / `text-sm`)
+- **Caption / Meta:** `11–12px` (`text-[11px]`)
 
 ---
 
-## 4. Layout & Spacing Scale
+## 4. Components & UI Patterns
 
-- **Scale:** `4px (1) / 8px (2) / 12px (3) / 16px (4) / 20px (5) / 24px (6) / 32px (8) / 48px (12)`
-- **Content Max-Width:** `1440px` for Studio Workspace, `1200px` for Admin tables.
-- **Breakpoints:**
-  - `sm`: 640px
-  - `md`: 768px
-  - `lg`: 1024px
-  - `xl`: 1280px
+### Glass Panels & Cards
+```css
+.glass-panel {
+  background-color: var(--surface-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-glass), var(--highlight);
+  border-radius: 18px;
+}
 
-### Border Radius & Elevation Tokens
-- `--radius-sm`: `6px` (Tags, small pills)
-- `--radius-md`: `8px` (Inputs, standard buttons)
-- `--radius-lg`: `12px` (Cards, panels, modal dialogs)
-- `--radius-full`: `9999px` (Avatars, platform channel logos)
-- `--shadow-card`: `0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3)`
-- `--shadow-dropdown`: `0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4)`
-
----
-
-## 5. Components & UI Patterns
-
-### Buttons
-- **Primary:** `bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors`
-- **Secondary:** `bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-lg`
-- **Danger:** `bg-red-600/10 hover:bg-red-600/20 text-red-400 border border-red-500/20 rounded-lg`
-- **Ghost:** `hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg`
-- **Disabled:** `opacity-50 cursor-not-allowed pointer-events-none`
-- **Loading State:** Must replace icon/text with `<Spinner />` and disable interaction.
+.glass-card {
+  background-color: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: var(--highlight);
+  border-radius: 16px;
+}
+```
 
 ### Channel Avatars (Mandatory Circular Design)
 - All connected Facebook Pages and YouTube Channels **MUST** display:
-  1. A **circular** avatar (`w-10 h-10 rounded-full object-cover ring-2 ring-slate-700`)
-  2. A corner platform icon badge (Facebook Blue / YouTube Red)
-  3. The **full channel / page name** in high-contrast text (`text-slate-100 font-medium`)
-  4. Connection timestamp & toggle switch for multi-destination live broadcast.
+  1. A **circular** avatar (`w-10 h-10 rounded-full object-cover ring-2 ring-[var(--border)]`)
+  2. Corner platform icon badge (`f` blue / `yt` red)
+  3. Full channel/page name beside it in high-contrast text (`text-[var(--text)]`)
+  4. Toggle switch for multi-destination live broadcast.
 
-### Status Badges
-- **LIVE:** Red pill with pulsing red dot (`bg-red-500/10 text-red-400 border border-red-500/30 animate-pulse`)
-- **Active / Connected:** Emerald pill (`bg-emerald-500/10 text-emerald-400 border border-emerald-500/20`)
-- **Offline:** Slate pill (`bg-slate-800 text-slate-400 border border-slate-700`)
-- **Suspended:** Amber/Red pill (`bg-amber-500/10 text-amber-400 border border-amber-500/20`)
-
----
-
-## 6. UX & Accessibility Rules
-- **Minimum Hit Target:** `24×24px` for inline controls, `44×44px` on mobile screens.
-- **Browser Zoom:** Never set `user-scalable=no` or `maximum-scale=1`.
-- **Loading Spinners:** Every async action (auth submit, channel connect, stream toggle, title update) must display a `<Spinner />`.
-- **Anti-Slop:** No generic purple-blue gradients. Use clean Lucide SVG icons.
-
----
-
-## 7. Performance Standards
-- Zero CLS (Cumulative Layout Shift) with explicit avatar placeholders.
-- Instant feedback on toggles with optimistic UI state.
-- Fast, code-split bundles using modern ESM.
+### Status Pills
+- **LIVE:** Red pill with pulsing dot (`bg-red-500/10 text-[var(--danger)] border border-red-500/30 font-mono`)
+- **Active:** Emerald pill with dot (`bg-emerald-500/10 text-[var(--success)] border border-emerald-500/20 font-mono`)
+- **Offline / Draft:** Slate pill (`bg-[var(--surface)] text-[var(--text-muted)] border border-[var(--border)] font-mono`)
