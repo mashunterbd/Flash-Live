@@ -12,6 +12,7 @@ import { channelsRouter } from './routes/channels.js';
 import { streamsRouter } from './routes/streams.js';
 import { adminRouter } from './routes/admin.js';
 import { ensureDatabaseAndCollections } from './services/dbInit.js';
+import { initRtmpServer } from './services/rtmpServer.js';
 
 // Load environment variables
 dotenv.config();
@@ -28,7 +29,13 @@ app.use(helmet({
 }));
 
 app.use(cors({
-  origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: (origin, callback) => {
+    // Allow local network IP, localhost, and requests without origin (mobile clients/tools)
+    if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.') || origin === FRONTEND_URL) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
   credentials: true
 }));
 
@@ -119,6 +126,9 @@ app.use('/api/admin', adminRouter);
 ensureDatabaseAndCollections().catch(err => {
   backendErrorLogger.log('warning', `DB auto-init failed: ${err.message}`, 'server_init');
 });
+
+// Initialize and start live RTMP Streaming Ingest Server
+initRtmpServer();
 
 // Global Error Handler
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {

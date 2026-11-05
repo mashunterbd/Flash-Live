@@ -220,3 +220,4 @@ export const AnalyticsCharts: React.FC = () => {
     </div>
   );
 };
+

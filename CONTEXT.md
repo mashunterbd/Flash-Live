@@ -51,6 +51,13 @@
   - Refactored all platform views (`EncoderStudioView`, `DestinationsView`, `OrganizationsView`, `SessionsView`, `SuperAdminPanel`, `StreamsListView`) and modals (`CreateStreamModal`, `StreamSettingsModal`, `UpdateTitlesModal`, `AuthModal`, `HelpModal`) to glassmorphism tokens.
   - Verified responsive design across Desktop (1440px) and Mobile (390px) with sliding drawer navigation.
   - All 6 pre-push checks passed with zero unhandled errors.
+- **Live RTMP Ingest Server (Port 1935) & LAN Private IP Broadcasting:**
+  - Integrated `node-media-server` listening on RTMP port `1935` and HTTP streaming port `8000` (`backend/src/services/rtmpServer.ts`).
+  - Configured Vite dev server with `--host 0.0.0.0 --port 3000` so mobile devices on the local network (e.g. Android phones) can connect via `http://192.168.0.135:3000/`.
+  - Configured backend API CORS whitelist to accept incoming connections from LAN origins.
+  - Verified standard RTMP version 3.0 handshake with S0/S1/S2 exchange over TCP port 1935.
+  - Added safe fallback clipboard mechanism (`document.execCommand('copy')`) for insecure HTTP contexts on mobile browsers.
+  - Automated test in `backend/test/features.test.js` validating the live RTMP ingest server.
 
 ## 3. In Progress
 - **None**: All core features and Apex 3-theme visual transformation completed and verified.

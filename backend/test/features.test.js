@@ -59,3 +59,38 @@ test('Admin Email Providers API allows fetching configurations', async () => {
   assert.ok(data.configs);
 });
 
+test('Live RTMP Ingest Server accepts connection and performs handshake', async () => {
+  const net = await import('net');
+  const crypto = await import('crypto');
+
+  await new Promise((resolve, reject) => {
+    const socket = new net.Socket();
+    const timer = setTimeout(() => {
+      socket.destroy();
+      reject(new Error('RTMP handshake timeout'));
+    }, 4000);
+
+    socket.connect(1935, '127.0.0.1', () => {
+      const c0 = Buffer.from([0x03]);
+      const c1 = crypto.randomBytes(1536);
+      socket.write(Buffer.concat([c0, c1]));
+    });
+
+    let received = Buffer.alloc(0);
+    socket.on('data', (chunk) => {
+      received = Buffer.concat([received, chunk]);
+      if (received.length >= 1537) {
+        clearTimeout(timer);
+        assert.equal(received[0], 0x03, 'S0 version byte must be 0x03 for RTMP 3.0');
+        socket.destroy();
+        resolve(true);
+      }
+    });
+
+    socket.on('error', (err) => {
+      clearTimeout(timer);
+      reject(err);
+    });
+  });
+});
+

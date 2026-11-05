@@ -31,6 +31,10 @@ lerna-debug.log*
 only_error_logs.json
 frontend/only_error_logs.json
 backend/only_error_logs.json
+data/
+backend/data/
+media/
+backend/media/
 
 # OS & Editor files
 .DS_Store

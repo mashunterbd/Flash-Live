@@ -246,3 +246,4 @@ export const ApexTable: React.FC<ApexTableProps> = ({
     </div>
   );
 };
+

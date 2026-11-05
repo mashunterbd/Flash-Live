@@ -56,9 +56,29 @@ export const EncoderStudioView: React.FC<EncoderStudioViewProps> = ({
   const [showBackupBanner, setShowBackupBanner] = useState(true);
 
   const copyToClipboard = (text: string, field: 'url' | 'key') => {
-    navigator.clipboard.writeText(text);
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+    } else {
+      fallbackCopy(text);
+    }
     setCopiedField(field);
     setTimeout(() => setCopiedField(null), 2000);
+  };
+
+  const fallbackCopy = (text: string) => {
+    try {
+      const el = document.createElement('textarea');
+      el.value = text;
+      el.style.position = 'fixed';
+      el.style.opacity = '0';
+      document.body.appendChild(el);
+      el.focus();
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    } catch {
+      // Handled silently
+    }
   };
 
   const allActive = channels.length > 0 && selectedDestinations.length === channels.length;

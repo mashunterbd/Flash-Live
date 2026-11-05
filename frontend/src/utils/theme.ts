@@ -24,3 +24,4 @@ export function applyTheme(theme: ThemeMode): void {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem(THEME_STORAGE_KEY, theme);
 }
+

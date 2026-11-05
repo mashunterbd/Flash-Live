@@ -57,3 +57,4 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ currentTheme, onThemeC
     </div>
   );
 };
+

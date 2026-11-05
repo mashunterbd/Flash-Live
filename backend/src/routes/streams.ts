@@ -21,14 +21,18 @@ streamsRouter.get('/session', async (req: Request, res: Response) => {
       Query.equal('orgId', orgId)
     ]);
 
-    const ingestUrl = process.env.RTMP_INGEST_URL || 'rtmp://localhost:1935/live';
+    const configuredIngest = process.env.RTMP_INGEST_URL || 'rtmp://192.168.0.135:1935/live';
 
     if (list.total > 0) {
       const doc = list.documents[0];
+      const ingestUrl = doc.ingestUrl && !doc.ingestUrl.includes('localhost')
+        ? doc.ingestUrl
+        : configuredIngest;
+
       return res.json({
         id: doc.$id,
         orgId: doc.orgId,
-        ingestUrl: doc.ingestUrl || ingestUrl,
+        ingestUrl,
         streamKey: doc.streamKey,
         title: doc.title || 'Live Broadcast',
         destinations: doc.destinations || [],
@@ -41,7 +45,7 @@ streamsRouter.get('/session', async (req: Request, res: Response) => {
     const streamKey = `fl_live_${crypto.randomBytes(8).toString('hex')}`;
     const doc = await databasesService.createDocument(dbId, collId, ID.unique(), {
       orgId,
-      ingestUrl,
+      ingestUrl: configuredIngest,
       streamKey,
       title: 'Live Broadcast: Episode 1',
       destinations: [],
@@ -81,7 +85,7 @@ streamsRouter.post('/regenerate-key', async (req: Request, res: Response) => {
     ]);
 
     const newKey = `fl_live_${crypto.randomBytes(8).toString('hex')}`;
-    const ingestUrl = process.env.RTMP_INGEST_URL || 'rtmp://localhost:1935/live';
+    const ingestUrl = process.env.RTMP_INGEST_URL || 'rtmp://192.168.0.135:1935/live';
 
     if (list.total > 0) {
       const doc = list.documents[0];
@@ -138,7 +142,7 @@ streamsRouter.put('/title', async (req: Request, res: Response) => {
         title
       });
     } else {
-      const ingestUrl = process.env.RTMP_INGEST_URL || 'rtmp://localhost:1935/live';
+      const ingestUrl = process.env.RTMP_INGEST_URL || 'rtmp://192.168.0.135:1935/live';
       const streamKey = `fl_live_${crypto.randomBytes(8).toString('hex')}`;
       sessionDoc = await databasesService.createDocument(dbId, collId, ID.unique(), {
         orgId,
@@ -204,7 +208,7 @@ streamsRouter.put('/destinations', async (req: Request, res: Response) => {
       });
     }
 
-    const ingestUrl = process.env.RTMP_INGEST_URL || 'rtmp://localhost:1935/live';
+    const ingestUrl = process.env.RTMP_INGEST_URL || 'rtmp://192.168.0.135:1935/live';
     const streamKey = `fl_live_${crypto.randomBytes(8).toString('hex')}`;
     const created = await databasesService.createDocument(dbId, collId, ID.unique(), {
       orgId,
