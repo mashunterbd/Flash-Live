@@ -22,6 +22,7 @@
 | T-005 | Phase 4, Task 4: Super Admin panel (users, orgs, channels, limits, suspend) | 2026-11-05 | Roster of orgs & channels with IDs/dates, quota limit adjuster, account suspend/reactivate |
 | T-006 | Phase 4, Task 5: Email provider configuration (Appwrite Messaging) | 2026-11-05 | Super Admin Provider ID settings (verification, recovery, welcome) + test email dispatch |
 | T-010 | Phase 4, Task 6: Docker Compose & Coolify containerization | 2026-11-05 | Dockerfiles & docker-compose.yml created strictly without reverse proxies per PRD 7.0 |
+| T-011 | Restream Studio architecture redesign & UI suite | 2026-11-05 | Full layout overhaul matching user reference: persistent sidebar, streams dashboard, create stream modal, live encoder studio, settings modal, floating help |
 
 ## 🔄 In Progress
 | ID | Task | Owner | Started | Notes |
