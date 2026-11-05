@@ -30,3 +30,4 @@ sh setup-hooks.sh
 - Backend errors: `backend/only_error_logs.json`
 - Frontend errors: `frontend/only_error_logs.json`
 Both files are auto-generated on startup, deduplicating errors with timestamps and occurrence counts.
+

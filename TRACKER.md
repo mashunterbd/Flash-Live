@@ -16,16 +16,16 @@
 | T-007 | Error logging system (`only_error_logs.json`) | 2026-11-05 | Auto-generated on startup for FE & BE, deduplicating errors with timestamps & counters |
 | T-008 | Pre-push quality gate (`.githooks/pre-push`) | 2026-11-05 | 6-step quality gate verified with deliberate error test and clean push pass |
 | T-009 | Design system tokens (`DESIGN.md` & UI) | 2026-11-05 | Restream Studio dark tokens implemented and verified with browser screenshot QA |
+| T-002 | Phase 4, Task 1: Appwrite Auth, Sessions view, Roles & Teams | 2026-11-05 | Auth modal, active sessions with IP/device metadata, `admin` label role governance, Appwrite Teams workspace isolation |
 
 ## 🔄 In Progress
 | ID | Task | Owner | Started | Notes |
 |---|---|---|---|---|
-| T-002 | Phase 4, Task 1: Appwrite Auth, Sessions view, Roles & Teams | Lead Engineer | 2026-11-05 | Building signup, login, email verification, forgot password, active session IP/device tracker, and role logic |
+| T-003 | Phase 4, Task 2: Facebook & YouTube connection flow | Lead Engineer | 2026-11-05 | OAuth connection flow, live streaming permissions, circular logos, connection quotas |
 
 ## 📋 Backlog / Pending
 | ID | Task | Priority | Depends On |
 |---|---|---|---|
-| T-003 | Facebook & YouTube connection flow (circular logo, quotas) | High | T-002 |
 | T-004 | Live streaming & multi-destination RTMP relay | High | T-003 |
 | T-005 | Super Admin panel (users, orgs, channels, limits, suspend) | High | T-002 |
 | T-006 | Email provider configuration (Appwrite Messaging) | Medium | T-005 |

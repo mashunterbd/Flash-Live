@@ -63,3 +63,4 @@ class FrontendErrorLogger {
 }
 
 export const frontendLogger = new FrontendErrorLogger();
+

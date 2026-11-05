@@ -14,3 +14,4 @@ try {
 } catch (e) {
   console.error('node-appwrite error details:', e);
 }
+

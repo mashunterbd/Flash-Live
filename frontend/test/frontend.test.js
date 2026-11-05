@@ -18,3 +18,4 @@ test('frontend tailwind config contains approved restream studio tokens', () => 
   assert.match(tailwind, /#0B0F17/, 'Background token must match DESIGN.md');
   assert.match(tailwind, /#131B2E/, 'Surface token must match DESIGN.md');
 });
+

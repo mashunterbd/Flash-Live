@@ -25,3 +25,4 @@ export async function syncClientConfig(): Promise<void> {
     // Retain defaults if server unreachable
   }
 }
+

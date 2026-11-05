@@ -6,6 +6,8 @@ import path from 'path';
 import fs from 'fs';
 import { backendErrorLogger } from './utils/errorLogger.js';
 import { usersService, teamsService, APPWRITE_CONFIG } from './services/appwrite.js';
+import { authRouter } from './routes/auth.js';
+import { teamsRouter } from './routes/teams.js';
 
 // Load environment variables
 dotenv.config();
@@ -102,32 +104,9 @@ app.post('/api/logs/frontend', (req: Request, res: Response) => {
   }
 });
 
-// 4. Role & Auth Verification: Get user role and details (Super Admin vs Normal User)
-app.get('/api/auth/me', async (req: Request, res: Response) => {
-  try {
-    const userId = req.headers['x-user-id'] as string;
-    if (!userId) {
-      return res.status(401).json({ error: 'User ID header required' });
-    }
-
-    const user = await usersService.get(userId);
-    const isSuperAdmin = Array.isArray(user.labels) && user.labels.includes('admin');
-
-    return res.json({
-      id: user.$id,
-      email: user.email,
-      name: user.name,
-      labels: user.labels,
-      isSuperAdmin,
-      role: isSuperAdmin ? 'SUPER_ADMIN' : 'NORMAL_USER',
-      emailVerification: user.emailVerification,
-      status: user.status
-    });
-  } catch (err: any) {
-    backendErrorLogger.log('error', `Auth verification error: ${err.message}`, 'auth/me');
-    return res.status(err.code || 500).json({ error: err.message });
-  }
-});
+// Mount routers
+app.use('/api/auth', authRouter);
+app.use('/api/teams', teamsRouter);
 
 // Global Error Handler
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
@@ -139,3 +118,4 @@ app.listen(PORT, () => {
   console.log(`[FlashLive Backend] Server listening on port ${PORT}`);
   console.log(`[FlashLive Backend] Connected to Appwrite: ${APPWRITE_CONFIG.endpoint} (Project: ${APPWRITE_CONFIG.projectId})`);
 });
+
