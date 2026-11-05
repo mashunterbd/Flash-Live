@@ -1,0 +1,7 @@
+.env
+.env.*
+node_modules/
+dist/
+only_error_logs.json
+*.log
+

@@ -1,0 +1,45 @@
+#!/bin/sh
+# Pre-push quality gate for Flash Live
+# Blocks git push if lint, test, or build fails on protected branches.
+
+set -e
+
+echo "=================================================="
+echo " Running Pre-Push Quality Gate for Flash Live..."
+echo "=================================================="
+
+# Read standard input for ref updates
+while read local_ref local_oid remote_ref remote_oid
+do
+  # Check if pushing to main or master
+  case "$remote_ref" in
+    refs/heads/main|refs/heads/master|refs/heads/staging)
+      echo "[Pre-Push] Target branch: $remote_ref. Running verification..."
+      
+      echo "[1/6] Linting backend..."
+      (cd backend && npm run lint) || { echo "❌ Backend lint failed!"; exit 1; }
+
+      echo "[2/6] Testing backend..."
+      (cd backend && npm test) || { echo "❌ Backend tests failed!"; exit 1; }
+
+      echo "[3/6] Building backend..."
+      (cd backend && npm run build) || { echo "❌ Backend build failed!"; exit 1; }
+
+      echo "[4/6] Linting frontend..."
+      (cd frontend && npm run lint) || { echo "❌ Frontend lint failed!"; exit 1; }
+
+      echo "[5/6] Testing frontend..."
+      (cd frontend && npm test) || { echo "❌ Frontend tests failed!"; exit 1; }
+
+      echo "[6/6] Building frontend..."
+      (cd frontend && npm run build) || { echo "❌ Frontend build failed!"; exit 1; }
+
+      echo "✅ All pre-push checks passed successfully!"
+      ;;
+    *)
+      echo "[Pre-Push] Pushing to feature branch ($remote_ref). Skipping strict gate."
+      ;;
+  esac
+done
+
+exit 0

@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Environment variables & secrets (CRITICAL)
+.env
+.env.local
+.env.*.local
+*.env
+backend/.env
+backend/.env.local
+frontend/.env
+frontend/.env.local
+
+# Build outputs & caches
+dist/
+build/
+.next/
+out/
+.cache/
+*.tsbuildinfo
+
+# Logs & Runtime
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+only_error_logs.json
+frontend/only_error_logs.json
+backend/only_error_logs.json
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
